@@ -18,3 +18,7 @@ storage/private/documents/*
 
 storage/private/inspections/*
 !storage/private/inspections/.gitkeep
+
+/.mysqldata/
+/.phpunit.cache/
+/tests/tmp/
