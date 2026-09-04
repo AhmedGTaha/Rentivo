@@ -1,0 +1,23 @@
+# Rentivo front controller.
+#
+# Requests for real files (assets, uploads) are served directly; everything
+# else is routed through index.php.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Never execute or serve PHP from the uploads directory.
+<Directory "uploads">
+    php_flag engine off
+</Directory>
+
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>

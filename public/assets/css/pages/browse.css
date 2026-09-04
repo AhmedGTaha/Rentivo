@@ -1,0 +1,226 @@
+/**
+ * Browse page (/cars and /agency/{slug}/cars).
+ *
+ * Desktop: a persistent filter rail beside the vehicle grid.
+ * Mobile:  search, a Filters button that opens the shared drawer, and sort.
+ *
+ * The rail and the drawer render the same CarFilterPanel component, so filter
+ * markup exists in exactly one place. The grid column is a plain block, which
+ * leaves room for a future Grid/Map toggle without restructuring the page.
+ */
+
+.browse-header {
+  padding-block: var(--space-7) var(--space-6);
+  background: var(--color-surface);
+  border-bottom: var(--border);
+}
+
+.browse-header__title {
+  font-size: var(--font-size-2xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.browse-header__lead {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.browse-search {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.browse-search__field {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.browse-layout {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+  align-items: start;
+  padding-block: var(--space-7) var(--space-11);
+}
+
+@media (min-width: 1024px) {
+  .browse-layout {
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+/* The desktop filter rail; hidden on small screens where the drawer is used. */
+.browse-rail {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .browse-rail {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+    max-height: calc(100vh - var(--header-height) - var(--space-9));
+    overflow-y: auto;
+    padding-right: var(--space-2);
+  }
+}
+
+.browse-results {
+  min-width: 0;
+}
+
+.browse-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.browse-toolbar__count {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.browse-toolbar__count strong {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.browse-toolbar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.browse-toolbar__filter-btn {
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .browse-toolbar__filter-btn {
+    display: none;
+  }
+}
+
+.browse-toolbar__filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding-inline: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Applied filter chips, always visible so the state is legible. */
+.browse-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+/* ---------------------------------------------------------------
+ * Filter panel (shared by rail and drawer)
+ * ------------------------------------------------------------- */
+.filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.filter-panel__section {
+  padding-bottom: var(--space-5);
+  border-bottom: var(--border);
+}
+
+.filter-panel__section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.filter-panel__legend {
+  margin-bottom: var(--space-3);
+  color: var(--color-ink);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.filter-panel__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.filter-panel__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.filter-panel__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+}
+
+.filter-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.filter-panel__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---------------------------------------------------------------
+ * Agencies directory
+ * ------------------------------------------------------------- */
+.agency-grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+/* ---------------------------------------------------------------
+ * Availability strip shown when dates are applied
+ * ------------------------------------------------------------- */
+.availability-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-5);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.availability-note__icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  color: var(--color-ink);
+}

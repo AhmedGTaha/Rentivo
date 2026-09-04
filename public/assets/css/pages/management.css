@@ -1,0 +1,326 @@
+/**
+ * Management console specifics.
+ *
+ * Denser than the public site but built from the same tokens and components,
+ * so the console reads as part of Rentivo rather than a bolted-on admin theme.
+ */
+
+.manage-topbar__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-snug);
+}
+
+.manage-topbar__meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.manage-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+/* Organization identity chip in the sidebar. */
+.org-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.org-chip__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  overflow: hidden;
+}
+
+.org-chip__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------------
+ * Dashboard
+ * ------------------------------------------------------------- */
+.dashboard-metrics {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: var(--space-7);
+}
+
+@media (min-width: 768px) {
+  .dashboard-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .dashboard-metrics {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1280px) {
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  }
+}
+
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.dashboard-section__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: var(--border);
+}
+
+.dashboard-section__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.dashboard-section__body {
+  padding: var(--space-5) var(--space-6);
+}
+
+.dashboard-section__body--flush {
+  padding: 0;
+}
+
+/* Compact list used for today's pickups/returns. */
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: var(--border);
+}
+
+.schedule-item:last-child {
+  border-bottom: none;
+}
+
+.schedule-item__time {
+  flex: 0 0 auto;
+  min-width: 58px;
+  color: var(--color-ink);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-item__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.schedule-item__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.schedule-item__meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* ---------------------------------------------------------------
+ * Fleet management
+ * ------------------------------------------------------------- */
+.fleet-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.image-manager {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.image-manager__item {
+  position: relative;
+  border: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.image-manager__item[data-primary="1"] {
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 1px var(--color-ink);
+}
+
+.image-manager__thumb {
+  aspect-ratio: 4 / 3;
+  background: var(--color-bg-sunken);
+}
+
+.image-manager__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-manager__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-top: var(--border);
+}
+
+.image-manager__badge {
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.image-manager__actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* ---------------------------------------------------------------
+ * Booking detail
+ * ------------------------------------------------------------- */
+.booking-detail {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 1280px) {
+  .booking-detail {
+    grid-template-columns: minmax(0, 1.7fr) minmax(320px, 1fr);
+  }
+}
+
+.booking-detail__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.inspection-grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+
+.inspection-grid__item {
+  aspect-ratio: 4 / 3;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-bg-sunken);
+}
+
+.inspection-grid__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------------
+ * Reports
+ * ------------------------------------------------------------- */
+.report-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .report-grid--split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Onboarding hints for a brand new organization
+ * ------------------------------------------------------------- */
+.setup-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.setup-checklist__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.setup-checklist__marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border-strong);
+  color: var(--color-text-subtle);
+}
+
+.setup-checklist__marker svg {
+  width: 13px;
+  height: 13px;
+}
+
+.setup-checklist__item[data-done="1"] .setup-checklist__marker {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #ffffff;
+}
+
+.setup-checklist__label {
+  flex: 1 1 auto;
+  font-size: var(--font-size-sm);
+}

@@ -1,0 +1,254 @@
+/**
+ * Data tables.
+ *
+ * Tables scroll horizontally on small screens by default; adding
+ * .data-table--stack instead collapses each row into a labelled card, which
+ * suits the management lists that carry few columns.
+ */
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-surface-alt);
+  border-bottom: var(--border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.data-table tbody td {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border);
+  vertical-align: middle;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr {
+  transition: background-color var(--transition-base);
+}
+
+.data-table tbody tr:hover {
+  background: var(--color-surface-alt);
+}
+
+.data-table__primary {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+}
+
+.data-table__secondary {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.data-table__numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.data-table__actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table__cell-stack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Row that links to a detail page. */
+.data-table__link {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+}
+
+.data-table__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------
+ * Stacked (card) presentation on narrow screens
+ * ------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .data-table--stack {
+    min-width: 0;
+  }
+
+  .data-table--stack thead {
+    display: none;
+  }
+
+  .data-table--stack tbody tr {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: var(--border);
+  }
+
+  .data-table--stack tbody td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: 0;
+    border: none;
+  }
+
+  /* The column heading is echoed via data-label on each cell. */
+  .data-table--stack tbody td::before {
+    content: attr(data-label);
+    flex: 0 0 auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .data-table--stack tbody td[data-label=""]::before {
+    display: none;
+  }
+
+  .data-table--stack .data-table__numeric,
+  .data-table--stack .data-table__actions {
+    text-align: left;
+  }
+
+  .table-wrap--stack {
+    overflow-x: visible;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Table toolbar
+ * ------------------------------------------------------------- */
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.table-toolbar__search {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.table-toolbar__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.table-summary {
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* ---------------------------------------------------------------
+ * Simple bar chart used by reports (no chart library in V1)
+ * ------------------------------------------------------------- */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  height: 180px;
+  padding-top: var(--space-4);
+}
+
+.bar-chart__column {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bar-chart__bar {
+  width: 100%;
+  max-width: 44px;
+  min-height: 3px;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: var(--color-ink);
+  transition: height var(--duration-slow) var(--ease-out);
+}
+
+.bar-chart__bar--muted {
+  background: var(--color-border-strong);
+}
+
+.bar-chart__label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-2xs);
+  white-space: nowrap;
+}
+
+/* Horizontal distribution meter for fleet status. */
+.meter {
+  display: flex;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--color-bg-sunken);
+}
+
+.meter__segment {
+  height: 100%;
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.meter__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.meter__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.meter__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: 0 0 auto;
+}

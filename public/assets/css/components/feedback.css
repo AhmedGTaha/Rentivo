@@ -1,0 +1,353 @@
+/**
+ * Alerts, toasts, modals and drawers.
+ */
+
+/* ---------------------------------------------------------------
+ * Alert
+ * ------------------------------------------------------------- */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.alert__icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+.alert__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.alert__title {
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.alert__message {
+  overflow-wrap: anywhere;
+}
+
+.alert--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.alert--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.alert--error,
+.alert--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.alert--info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.alert__dismiss {
+  flex: 0 0 auto;
+  color: inherit;
+  opacity: 0.6;
+  transition: opacity var(--transition-base);
+}
+
+.alert__dismiss:hover {
+  opacity: 1;
+}
+
+.alert__dismiss svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------------------------------------------------------------
+ * Toast
+ * ------------------------------------------------------------- */
+.toast-region {
+  position: fixed;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--layer-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(420px, calc(100vw - var(--space-8)));
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .toast-region {
+    left: auto;
+    right: var(--space-6);
+    bottom: var(--space-6);
+    transform: none;
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--font-size-sm);
+  pointer-events: auto;
+  animation: toast-in var(--duration-slow) var(--ease-out);
+}
+
+.toast.is-leaving {
+  animation: toast-out var(--duration-base) var(--ease-out) forwards;
+}
+
+.toast__icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+}
+
+.toast--success .toast__icon {
+  color: #7fd6a8;
+}
+
+.toast--error .toast__icon {
+  color: #ff9d9d;
+}
+
+.toast--warning .toast__icon {
+  color: #f4c37a;
+}
+
+.toast__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.toast__dismiss {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color var(--transition-base);
+}
+
+.toast__dismiss:hover {
+  color: var(--color-text-inverse);
+}
+
+.toast__dismiss svg {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Modal
+ * ------------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.45);
+  backdrop-filter: blur(3px);
+  animation: fade-in var(--duration-base) var(--ease-out);
+}
+
+.modal__dialog {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: calc(100vh - var(--space-10));
+  overflow-y: auto;
+  padding: var(--space-7);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  animation: modal-in var(--duration-slow) var(--ease-out);
+}
+
+.modal__dialog--wide {
+  width: min(760px, 100%);
+}
+
+.modal__header {
+  margin-bottom: var(--space-4);
+}
+
+.modal__title {
+  font-size: var(--font-size-xl);
+}
+
+.modal__description {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+
+.modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Drawer
+ * ------------------------------------------------------------- */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-drawer);
+}
+
+.drawer[hidden] {
+  display: none;
+}
+
+.drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.4);
+  animation: fade-in var(--duration-base) var(--ease-out);
+}
+
+.drawer__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(360px, 88vw);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  animation: drawer-in-left var(--duration-slow) var(--ease-out);
+}
+
+.drawer__panel--right {
+  left: auto;
+  right: 0;
+  animation-name: drawer-in-right;
+}
+
+.drawer__panel--bottom {
+  top: auto;
+  right: 0;
+  width: 100%;
+  max-height: 86vh;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  animation-name: drawer-in-bottom;
+}
+
+.drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5);
+  border-bottom: var(--border);
+}
+
+.drawer__title {
+  font-size: var(--font-size-lg);
+}
+
+.drawer__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--space-5);
+}
+
+.drawer__footer {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-top: var(--border);
+  background: var(--color-surface-alt);
+}
+
+@keyframes drawer-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes drawer-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes drawer-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* Prevents background scroll while a modal or drawer is open. */
+body.has-overlay {
+  overflow: hidden;
+}

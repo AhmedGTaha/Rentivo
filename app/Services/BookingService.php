@@ -190,7 +190,7 @@ final class BookingService
     {
         $context->authorize(Permissions::BOOKINGS_CONFIRM);
 
-        return $this->db->transaction(function () use ($context, $reference): array {
+        $confirmed = $this->db->transaction(function () use ($context, $reference): array {
             $booking = $this->bookings->findInOrganization($reference, $context->organizationId());
 
             if ($booking === null) {
@@ -252,6 +252,12 @@ final class BookingService
 
             return $this->bookings->findInOrganization($reference, $context->organizationId()) ?? $booking;
         });
+
+        // Notified only after the transaction commits, so a rolled-back
+        // confirmation never produces a "confirmed" message.
+        $this->notifications->bookingConfirmed($confirmed, $context->name());
+
+        return $confirmed;
     }
 
     /** @throws BookingException */

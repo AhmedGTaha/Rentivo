@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Rentivo;
 
 use Closure;
+use ReflectionClass;
+use ReflectionNamedType;
 use RuntimeException;
 
 /**
@@ -51,9 +53,58 @@ final class Container
         }
 
         if (!isset($this->factories[$id])) {
-            throw new RuntimeException('Service not registered: ' . $id);
+            return $this->instances[$id] = $this->autowire($id);
         }
 
         return $this->instances[$id] = ($this->factories[$id])($this);
+    }
+
+    /**
+     * Constructor injection for classes that are pure composition of already
+     * registered services — controllers, in practice.
+     *
+     * Services themselves are always bound explicitly in Application so their
+     * wiring stays visible; this only removes controller boilerplate.
+     */
+    private function autowire(string $id): object
+    {
+        if (!class_exists($id)) {
+            throw new RuntimeException('Service not registered: ' . $id);
+        }
+
+        $reflection = new ReflectionClass($id);
+
+        if (!$reflection->isInstantiable()) {
+            throw new RuntimeException('Cannot instantiate: ' . $id);
+        }
+
+        $constructor = $reflection->getConstructor();
+
+        if ($constructor === null) {
+            return new $id();
+        }
+
+        $arguments = [];
+
+        foreach ($constructor->getParameters() as $parameter) {
+            $type = $parameter->getType();
+
+            if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
+                if ($parameter->isDefaultValueAvailable()) {
+                    $arguments[] = $parameter->getDefaultValue();
+                    continue;
+                }
+
+                throw new RuntimeException(sprintf(
+                    'Cannot resolve parameter $%s of %s.',
+                    $parameter->getName(),
+                    $id
+                ));
+            }
+
+            $arguments[] = $this->get($type->getName());
+        }
+
+        return $reflection->newInstanceArgs($arguments);
     }
 }

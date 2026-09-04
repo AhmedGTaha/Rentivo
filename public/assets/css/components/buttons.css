@@ -1,0 +1,204 @@
+/**
+ * Buttons and icon buttons.
+ *
+ * One base class with modifiers; every button in the product is a variant of
+ * this, so weight, radius and focus treatment stay identical everywhere.
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.6875rem var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-base), border-color var(--transition-base),
+    color var(--transition-base), transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--transition-base);
+}
+
+.btn:hover {
+  background: var(--color-ink-soft);
+  color: var(--color-text-inverse);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.btn svg {
+  width: 1.05em;
+  height: 1.05em;
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------
+ * Variants
+ * ------------------------------------------------------------- */
+.btn--secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-ink);
+}
+
+.btn--secondary:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.btn--ghost:hover {
+  background: var(--color-bg-sunken);
+  color: var(--color-ink);
+}
+
+.btn--accent {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.btn--accent:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  filter: brightness(1.12);
+}
+
+.btn--danger {
+  background: var(--color-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-danger);
+}
+
+.btn--danger:hover {
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.btn--inverse {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.btn--inverse:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
+}
+
+/* ---------------------------------------------------------------
+ * Sizes
+ * ------------------------------------------------------------- */
+.btn--sm {
+  padding: 0.4375rem var(--space-4);
+  font-size: var(--font-size-xs);
+}
+
+.btn--lg {
+  padding: 0.9375rem var(--space-7);
+  font-size: var(--font-size-md);
+}
+
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------
+ * Icon button
+ * ------------------------------------------------------------- */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.icon-btn:hover {
+  background: var(--color-bg-sunken);
+  color: var(--color-ink);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-btn--bordered {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.icon-btn--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.icon-btn--sm svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-btn--danger:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+/* ---------------------------------------------------------------
+ * Button groups
+ * ------------------------------------------------------------- */
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Google sign-in button: neutral chrome, official mark supplied inline. */
+.btn--google {
+  gap: var(--space-3);
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+}
+
+.btn--google svg {
+  width: 18px;
+  height: 18px;
+}

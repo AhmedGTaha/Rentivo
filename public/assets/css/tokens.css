@@ -1,0 +1,186 @@
+/**
+ * Rentivo design tokens.
+ *
+ * Every colour, space, radius, shadow, duration and layer used anywhere in the
+ * product is declared here. Component stylesheets reference these variables
+ * and never hard-code raw values, which is what keeps the public marketplace
+ * and the management console feeling like one product.
+ *
+ * The palette is deliberately monochrome — near-black, white and warm neutral
+ * greys — so vehicle photography carries the colour.
+ */
+
+:root {
+  /* ---------------------------------------------------------------
+   * Colour — neutral ramp
+   * ------------------------------------------------------------- */
+  --color-ink: #111111;
+  --color-ink-soft: #2a2a2a;
+  --color-text: #1a1a1a;
+  --color-text-muted: #767674;
+  --color-text-subtle: #9a9a97;
+  --color-text-inverse: #ffffff;
+
+  --color-bg: #f4f4f2;
+  --color-bg-sunken: #ebebe8;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8f8f6;
+  --color-surface-inverse: #111111;
+
+  --color-border: #e5e5e2;
+  --color-border-strong: #d6d6d2;
+  --color-border-inverse: #2e2e2e;
+
+  /* Organization accent. Overridden per storefront/management shell with an
+   * inline custom property; never used for large surfaces. */
+  --color-accent: #111111;
+  --color-accent-contrast: #ffffff;
+  --color-accent-soft: rgba(17, 17, 17, 0.06);
+
+  /* ---------------------------------------------------------------
+   * Colour — status tones
+   * ------------------------------------------------------------- */
+  --color-success: #1c6b45;
+  --color-success-bg: #e8f3ed;
+  --color-warning: #8a5a12;
+  --color-warning-bg: #fbf1e0;
+  --color-danger: #a02020;
+  --color-danger-bg: #fbeaea;
+  --color-info: #1f4a80;
+  --color-info-bg: #e9f0f8;
+  --color-neutral: #56565a;
+  --color-neutral-bg: #efefec;
+
+  --color-focus: #1a1a1a;
+  --color-focus-ring: rgba(17, 17, 17, 0.35);
+
+  /* ---------------------------------------------------------------
+   * Typography
+   * ------------------------------------------------------------- */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --font-size-2xs: 0.6875rem; /* 11px */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.8125rem;  /* 13px */
+  --font-size-base: 0.9375rem;/* 15px */
+  --font-size-md: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.375rem;   /* 22px */
+  --font-size-2xl: 1.75rem;   /* 28px */
+  --font-size-3xl: 2.25rem;   /* 36px */
+  --font-size-display: clamp(2.75rem, 7vw, 5.25rem);
+  --font-size-display-sm: clamp(2rem, 4.5vw, 3.25rem);
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.05;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.55;
+  --line-height-relaxed: 1.7;
+
+  --tracking-tight: -0.03em;
+  --tracking-snug: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+  --tracking-widest: 0.14em;
+
+  /* ---------------------------------------------------------------
+   * Spacing (4px base)
+   * ------------------------------------------------------------- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 2rem;
+  --space-8: 2.5rem;
+  --space-9: 3rem;
+  --space-10: 4rem;
+  --space-11: 5rem;
+  --space-12: 6.5rem;
+  --space-13: 8rem;
+
+  /* ---------------------------------------------------------------
+   * Radii — large, soft surfaces
+   * ------------------------------------------------------------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------
+   * Borders and shadows — restrained, never heavy
+   * ------------------------------------------------------------- */
+  --border-width: 1px;
+  --border: var(--border-width) solid var(--color-border);
+  --border-strong: var(--border-width) solid var(--color-border-strong);
+
+  --shadow-xs: 0 1px 2px rgba(17, 17, 17, 0.04);
+  --shadow-sm: 0 2px 8px rgba(17, 17, 17, 0.05);
+  --shadow-md: 0 8px 24px rgba(17, 17, 17, 0.07);
+  --shadow-lg: 0 20px 48px rgba(17, 17, 17, 0.1);
+  --shadow-focus: 0 0 0 3px var(--color-focus-ring);
+
+  /* ---------------------------------------------------------------
+   * Layout
+   * ------------------------------------------------------------- */
+  --container-max: 1280px;
+  --container-narrow: 780px;
+  --container-wide: 1480px;
+  --gutter: var(--space-5);
+
+  --header-height: 72px;
+  --sidebar-width: 264px;
+
+  /* ---------------------------------------------------------------
+   * Motion
+   * ------------------------------------------------------------- */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.15, 1);
+  --transition-base: var(--duration-base) var(--ease-out);
+
+  /* ---------------------------------------------------------------
+   * Z-index layers
+   * ------------------------------------------------------------- */
+  --layer-base: 0;
+  --layer-raised: 10;
+  --layer-sticky: 100;
+  --layer-header: 200;
+  --layer-dropdown: 300;
+  --layer-drawer: 400;
+  --layer-modal: 500;
+  --layer-toast: 600;
+}
+
+/**
+ * Breakpoints are documented here for reference; CSS custom properties cannot
+ * be used inside media queries, so the literal values below are the canonical
+ * set used across every stylesheet.
+ *
+ *   sm   480px
+ *   md   768px
+ *   lg   1024px
+ *   xl   1280px
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+  }
+}

@@ -1,0 +1,359 @@
+/**
+ * Customer account area and the booking checkout page.
+ */
+
+.account-layout {
+  padding-block: var(--space-7) var(--space-11);
+}
+
+.account-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+
+.account-header__identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.account-header__name {
+  font-size: var(--font-size-xl);
+  letter-spacing: var(--tracking-snug);
+}
+
+.account-header__email {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  overflow-wrap: anywhere;
+}
+
+.account-header__actions {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------------------------------------------------------------
+ * Dashboard
+ * ------------------------------------------------------------- */
+.account-highlight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.account-highlight__label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+}
+
+.account-highlight__title {
+  margin-top: var(--space-2);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-xl);
+}
+
+.account-highlight__meta {
+  margin-top: var(--space-2);
+  color: rgba(255, 255, 255, 0.68);
+  font-size: var(--font-size-sm);
+}
+
+.account-highlight__actions {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------------------------------------------------------------
+ * Profile
+ * ------------------------------------------------------------- */
+.profile-avatar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+  border-bottom: var(--border);
+}
+
+.profile-avatar__hint {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  max-width: 42ch;
+}
+
+/* ---------------------------------------------------------------
+ * Documents
+ * ------------------------------------------------------------- */
+.document-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.document-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-sunken);
+  color: var(--color-text-muted);
+}
+
+.document-card__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.document-card__body {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.document-card__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.document-card__meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.document-card__reviews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.document-card__actions {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+/* ---------------------------------------------------------------
+ * Notifications
+ * ------------------------------------------------------------- */
+.notification-item {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-bottom: var(--border);
+  transition: background-color var(--transition-base);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item--unread {
+  background: var(--color-surface-alt);
+}
+
+.notification-item__marker {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+
+.notification-item--unread .notification-item__marker {
+  background: var(--color-ink);
+}
+
+.notification-item__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.notification-item__title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+}
+
+.notification-item__message {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.notification-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
+
+.notification-item__actions {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+/* ---------------------------------------------------------------
+ * Booking checkout
+ * ------------------------------------------------------------- */
+.checkout-layout {
+  display: grid;
+  gap: var(--space-7);
+  grid-template-columns: 1fr;
+  align-items: start;
+  padding-block: var(--space-7) var(--space-11);
+}
+
+@media (min-width: 1024px) {
+  .checkout-layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
+    gap: var(--space-9);
+  }
+}
+
+.checkout-panel {
+  padding: var(--space-6);
+  border: var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+@media (min-width: 768px) {
+  .checkout-panel {
+    padding: var(--space-8);
+  }
+}
+
+.checkout-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (min-width: 1024px) {
+  .checkout-aside {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+  }
+}
+
+.checkout-step {
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+  border-bottom: var(--border);
+}
+
+.checkout-step:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.checkout-step__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-md);
+}
+
+.checkout-step__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---------------------------------------------------------------
+ * Sign-in page
+ * ------------------------------------------------------------- */
+.auth-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height));
+  padding: var(--space-9) var(--gutter) var(--space-11);
+}
+
+.auth-card {
+  width: min(460px, 100%);
+  padding: var(--space-8);
+  border: var(--border);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.auth-card__title {
+  font-size: var(--font-size-2xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.auth-card__lead {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.auth-card__action {
+  margin-top: var(--space-7);
+}
+
+.auth-card__legal {
+  margin-top: var(--space-6);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+}
+
+.auth-card__context {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  margin-top: var(--space-6);
+  border: var(--border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  text-align: left;
+}

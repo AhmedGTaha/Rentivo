@@ -1,0 +1,189 @@
+/**
+ * Badges, pills and inline status indicators.
+ *
+ * Tones map one-to-one to the semantic colour tokens, so a booking status, a
+ * car status and a document status all render with the same visual grammar.
+ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.25rem var(--space-3);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  letter-spacing: var(--tracking-snug);
+  white-space: nowrap;
+}
+
+.badge--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.badge--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.badge--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.badge--info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.badge--neutral {
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral);
+}
+
+.badge--ink {
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+}
+
+.badge--outline {
+  background: transparent;
+  border-color: var(--color-border-strong);
+  color: var(--color-text-muted);
+}
+
+.badge--accent {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.badge--sm {
+  padding: 0.125rem var(--space-2);
+  font-size: var(--font-size-2xs);
+}
+
+/* A small dot preceding the label, for status lists. */
+.badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------
+ * Pill (filter chips and counters)
+ * ------------------------------------------------------------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  transition: background-color var(--transition-base), border-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.pill:hover {
+  border-color: var(--color-text-subtle);
+  color: var(--color-ink);
+}
+
+.pill[aria-pressed="true"],
+.pill.is-active {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-text-inverse);
+}
+
+.pill__count {
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.pill--removable {
+  padding-right: var(--space-2);
+}
+
+.pill__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.6;
+  transition: opacity var(--transition-base), background-color var(--transition-base);
+}
+
+.pill__remove:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.pill__remove svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---------------------------------------------------------------
+ * Overdue marker, used across bookings, dashboard and reports
+ * ------------------------------------------------------------- */
+.overdue-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.overdue-flag svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------------------------------------------------------------
+ * Tooltip
+ * ------------------------------------------------------------- */
+.tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.tooltip__content {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  z-index: var(--layer-dropdown);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-xs);
+  background: var(--color-ink);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.tooltip:hover .tooltip__content,
+.tooltip:focus-within .tooltip__content {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
