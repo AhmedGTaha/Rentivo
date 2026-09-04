@@ -212,6 +212,102 @@ final class HttpKernelTest extends TestCase
         self::assertStringStartsWith('/cars/' . $car['slug'] . '/book', $intended);
     }
 
+    /**
+     * The second half of SRS Test 2: after signing in, the visitor lands back
+     * on checkout with their selection intact and can submit the booking.
+     */
+    public function testSignedInVisitorCompletesTheBookingTheyStarted(): void
+    {
+        $admin = $this->createUser('admin@example.test');
+        $organization = $this->createOrganization('Round Trip Agency', $admin);
+        $car = $this->createCar((int) $organization['id'], ['daily_rate_fils' => 20000]);
+
+        $pickup = gmdate('Y-m-d\TH:i', time() + 172800);
+        $return = gmdate('Y-m-d\TH:i', time() + 345600);
+
+        // 1. A guest presses "Book" and is sent to sign in.
+        $this->get('/cars/' . $car['slug'] . '/book', [
+            'pickup_at' => $pickup,
+            'return_at' => $return,
+        ]);
+
+        $intended = $_SESSION['_intended_url'] ?? '';
+        self::assertStringStartsWith('/cars/' . $car['slug'] . '/book', $intended);
+
+        // 2. They authenticate. The session keeps the stored selection.
+        $customerId = $this->createUserWithPhone('customer@example.test', 'Customer');
+        $this->actingAs($customerId);
+
+        // 3. They return to the intended URL: the checkout page, pre-filled.
+        $checkout = $this->kernel->handle(
+            new Request('GET', Request::normalisePath(parse_url($intended, PHP_URL_PATH)),
+                $this->queryFrom($intended))
+        );
+
+        self::assertSame(200, $checkout->status());
+        self::assertStringContainsString('Complete your booking', $checkout->content());
+        self::assertStringContainsString($pickup, $checkout->content(), 'The chosen dates should be pre-filled.');
+
+        // 4. They submit, and a pending booking is created.
+        $submit = $this->post('/cars/' . $car['slug'] . '/book', $this->withToken([
+            'pickup_at' => $pickup,
+            'return_at' => $return,
+        ]));
+
+        self::assertSame(302, $submit->status());
+
+        $location = (string) $submit->header('Location');
+        self::assertStringStartsWith('/account/bookings/BK-', $location);
+
+        $reference = basename($location);
+        $booking = $this->app->get(\Rentivo\Repositories\BookingRepository::class)
+            ->findForUser($reference, $customerId);
+
+        self::assertNotNull($booking);
+        self::assertSame('pending', $booking['status']);
+        self::assertSame(2, (int) $booking['rental_days']);
+        self::assertSame(40000, (int) $booking['total_fils']);
+
+        // 5. The stored selection has been consumed.
+        self::assertArrayNotHasKey('_intended_booking', $_SESSION);
+
+        // 6. The booking is visible on their account.
+        self::assertSame(200, $this->get($location)->status());
+    }
+
+    /** @return array<string,mixed> */
+    private function queryFrom(string $url): array
+    {
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+
+        return $query;
+    }
+
+    /** A booking cannot be submitted without a phone number. */
+    public function testBookingIsBlockedUntilAPhoneNumberIsAdded(): void
+    {
+        $admin = $this->createUser('admin@example.test');
+        $organization = $this->createOrganization('Phone Agency', $admin);
+        $car = $this->createCar((int) $organization['id']);
+
+        // Created without a phone number.
+        $customerId = $this->createUser('nophone@example.test', 'No Phone');
+        $this->actingAs($customerId);
+
+        $response = $this->post('/cars/' . $car['slug'] . '/book', $this->withToken([
+            'pickup_at' => gmdate('Y-m-d\TH:i', time() + 172800),
+            'return_at' => gmdate('Y-m-d\TH:i', time() + 345600),
+        ]));
+
+        self::assertSame(302, $response->status());
+        self::assertStringStartsWith('/account/profile', (string) $response->header('Location'));
+
+        self::assertSame(
+            0,
+            (int) $this->db()->scalar('SELECT COUNT(*) FROM bookings WHERE user_id = ?', [$customerId])
+        );
+    }
+
     /** Account pages redirect a guest to sign in rather than erroring. */
     public function testAccountPagesRedirectGuestsToLogin(): void
     {

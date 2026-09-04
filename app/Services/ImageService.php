@@ -85,7 +85,6 @@ final class ImageService
         $image = $this->resizeToMaxEdge($image, $maxEdge);
 
         [$contents, $extension] = $this->encode($image);
-        imagedestroy($image);
 
         return $this->storage->putContents(
             $disk,
@@ -209,8 +208,8 @@ final class ImageService
         imagesavealpha($resized, true);
         imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
-        imagedestroy($image);
-
+        // GD images are garbage-collected objects; imagedestroy() is a no-op
+        // since PHP 8.0 and deprecated from 8.5.
         return $resized;
     }
 
@@ -243,7 +242,6 @@ final class ImageService
         imagecopy($flattened, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
         imagejpeg($flattened, null, max(60, $quality));
-        imagedestroy($flattened);
 
         return [(string) ob_get_clean(), 'jpg'];
     }

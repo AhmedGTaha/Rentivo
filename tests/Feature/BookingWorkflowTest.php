@@ -8,12 +8,10 @@ use DateTimeImmutable;
 use Rentivo\Repositories\BookingRepository;
 use Rentivo\Repositories\CarRepository;
 use Rentivo\Repositories\OrganizationCustomerRepository;
-use Rentivo\Security\Permissions;
 use Rentivo\Services\AvailabilityService;
 use Rentivo\Services\BookingException;
 use Rentivo\Services\BookingService;
 use Rentivo\Services\BookingStatus;
-use Rentivo\Services\CarService;
 use Rentivo\Support\DateTimeHelper;
 use Rentivo\Tests\TestCase;
 

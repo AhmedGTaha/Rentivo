@@ -22,7 +22,6 @@ use Rentivo\Services\BookingException;
 use Rentivo\Services\BookingService;
 use Rentivo\Services\BookingStatus;
 use Rentivo\Services\RentalService;
-use Rentivo\Support\Currency;
 use Rentivo\Support\DateTimeHelper;
 use Rentivo\Support\Flash;
 

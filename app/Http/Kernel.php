@@ -6,7 +6,6 @@ namespace Rentivo\Http;
 
 use Rentivo\Application;
 use Rentivo\Auth\SessionAuth;
-use Rentivo\Components\View;
 use Rentivo\Repositories\NotificationRepository;
 use Rentivo\Security\Authorization;
 use Rentivo\Security\Csrf;

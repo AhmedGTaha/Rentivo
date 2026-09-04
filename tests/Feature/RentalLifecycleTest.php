@@ -7,7 +7,6 @@ namespace Rentivo\Tests\Feature;
 use Rentivo\Http\HttpException;
 use Rentivo\Repositories\BookingRepository;
 use Rentivo\Repositories\CarRepository;
-use Rentivo\Repositories\RentalRepository;
 use Rentivo\Security\OrganizationContext;
 use Rentivo\Security\Permissions;
 use Rentivo\Services\BookingException;

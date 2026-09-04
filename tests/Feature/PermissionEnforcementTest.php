@@ -7,7 +7,6 @@ namespace Rentivo\Tests\Feature;
 use Rentivo\Http\HttpException;
 use Rentivo\Security\OrganizationContext;
 use Rentivo\Security\Permissions;
-use Rentivo\Services\BookingException;
 use Rentivo\Services\BookingService;
 use Rentivo\Services\CarService;
 use Rentivo\Services\EmployeeException;

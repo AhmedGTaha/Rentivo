@@ -7,7 +7,6 @@ namespace Rentivo\Tests\Feature;
 use Rentivo\Http\HttpException;
 use Rentivo\Repositories\DocumentRepository;
 use Rentivo\Repositories\OrganizationCustomerRepository;
-use Rentivo\Security\OrganizationContext;
 use Rentivo\Security\Permissions;
 use Rentivo\Services\DocumentException;
 use Rentivo\Services\DocumentService;
