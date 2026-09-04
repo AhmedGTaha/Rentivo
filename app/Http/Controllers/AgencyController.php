@@ -74,6 +74,9 @@ final class AgencyController extends Controller
             'fleetCount'      => $this->cars->countPublicForOrganization((int) $organization['id']),
             'locations'       => $this->locations->publicForOrganization((int) $organization['id']),
             'favoriteIds'     => $userId === null ? [] : $this->favorites->carIdsFor($userId),
+            // The storefront renders its own brand header band.
+            'fullWidth'       => true,
+            'accentColor'     => $organization['primary_color'] ?? null,
         ]);
     }
 

@@ -129,6 +129,9 @@ final class CarController extends Controller
             'sortLabels'   => CarFilters::sortLabels(),
             'transmissions' => CarService::transmissions(),
             'fuelTypes'    => CarService::fuelTypes(),
+            // The browse page manages its own header band and layout grid.
+            'fullWidth'    => true,
+            'accentColor'  => $organization['primary_color'] ?? null,
         ]);
     }
 
@@ -178,6 +181,9 @@ final class CarController extends Controller
             'isFavorite'      => $userId !== null && $this->favorites->exists($userId, (int) $car['id']),
             'filters'         => $filters,
             'availability'    => $availability,
+            // The detail page owns its container and sticky mobile bar.
+            'fullWidth'       => true,
+            'accentColor'     => $car['organization_color'] ?? null,
         ]);
     }
 }

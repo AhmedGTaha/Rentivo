@@ -88,29 +88,45 @@ final class Router
     }
 
     /**
+     * Compiles "/manage/{org}/cars/{id:int}" into a match pattern.
+     *
+     * Literal segments are quoted and parameter segments are substituted in a
+     * single left-to-right pass. Quoting the whole path first would escape the
+     * braces and stop the parameters from ever being recognised.
+     *
      * @return array{0:string,1:list<string>}
      */
     private function compile(string $path): array
     {
         $parameters = [];
+        $regex = '';
+        $offset = 0;
 
-        $regex = preg_replace_callback(
+        $found = preg_match_all(
             '/\{([a-zA-Z_][a-zA-Z0-9_]*)(?::(int|slug|any))?\}/',
-            static function (array $matches) use (&$parameters): string {
-                $parameters[] = $matches[1];
+            $path,
+            $matches,
+            PREG_OFFSET_CAPTURE
+        );
 
-                return match ($matches[2] ?? 'any') {
+        if ($found > 0) {
+            foreach ($matches[0] as $index => [$placeholder, $position]) {
+                $regex .= preg_quote(substr($path, $offset, $position - $offset), '#');
+
+                $parameters[] = $matches[1][$index][0];
+
+                $type = $matches[2][$index][0] ?? '';
+                $regex .= match ($type) {
                     'int'  => '(\d+)',
                     'slug' => '([a-z0-9][a-z0-9-]*)',
                     default => '([^/]+)',
                 };
-            },
-            preg_quote($path, '#')
-        ) ?? '';
 
-        // preg_quote escapes the braces we just replaced; undo that safely by
-        // quoting first and then substituting on the quoted form.
-        $regex = str_replace(['\{', '\}', '\-'], ['{', '}', '-'], $regex);
+                $offset = $position + strlen($placeholder);
+            }
+        }
+
+        $regex .= preg_quote(substr($path, $offset), '#');
 
         return ['#^' . $regex . '$#', $parameters];
     }

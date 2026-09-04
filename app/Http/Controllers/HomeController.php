@@ -45,7 +45,8 @@ final class HomeController extends Controller
             'categories'      => array_slice($this->categories->distinctPublicNames(), 0, 8),
             'brands'          => array_slice($this->cars->distinctPublicBrands(), 0, 10),
             'favoriteIds'     => $userId === null ? [] : $this->favorites->carIdsFor($userId),
-            'isHome'          => true,
+            // The homepage lays out its own full-bleed sections.
+            'fullWidth'       => true,
         ]);
     }
 }

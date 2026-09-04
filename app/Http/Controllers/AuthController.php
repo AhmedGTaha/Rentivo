@@ -55,6 +55,8 @@ final class AuthController extends Controller
             'googleConfigured'  => $this->google->isConfigured(),
             'configurationHint' => $this->google->configurationHint(),
             'intendedBooking'   => $this->auth->peekIntendedBooking(),
+            // The sign-in card centres itself in the viewport.
+            'fullWidth'         => true,
         ]);
     }
 
