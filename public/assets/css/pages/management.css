@@ -317,7 +317,7 @@
 .setup-checklist__item[data-done="1"] .setup-checklist__marker {
   background: var(--color-success);
   border-color: var(--color-success);
-  color: #ffffff;
+  color: var(--color-text-inverse);
 }
 
 .setup-checklist__label {

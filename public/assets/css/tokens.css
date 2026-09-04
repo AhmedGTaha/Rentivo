@@ -51,6 +51,12 @@
   --color-neutral: #56565a;
   --color-neutral-bg: #efefec;
 
+  /* Status tints for use on the dark inverse surface (toasts), where the
+   * standard status colours would not carry enough contrast. */
+  --color-success-on-inverse: #7fd6a8;
+  --color-danger-on-inverse: #ff9d9d;
+  --color-warning-on-inverse: #f4c37a;
+
   --color-focus: #1a1a1a;
   --color-focus-ring: rgba(17, 17, 17, 0.35);
 
