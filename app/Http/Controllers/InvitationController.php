@@ -58,6 +58,8 @@ final class InvitationController extends Controller
                 ? []
                 : $this->employees->invitations()->permissionKeys((int) $invitation['id']),
             'permissionLabels' => Permissions::labels(),
+            // The invitation card centres itself like the sign-in page.
+            'fullWidth'    => true,
         ]);
     }
 

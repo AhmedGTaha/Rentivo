@@ -95,7 +95,8 @@ final class BookingController extends Controller
             'availability' => $availability,
             'profile'      => $profile,
             'hasPhone'     => $this->users->hasPhone($userId),
-            'layoutVariant' => 'checkout',
+            // Checkout lays out its own two-column container.
+            'fullWidth'    => true,
         ]);
     }
 

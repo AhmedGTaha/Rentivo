@@ -25,7 +25,8 @@ final class DevController extends Controller
         }
 
         return $this->render('dev/components', [
-            'title' => 'Component gallery',
+            'title'     => 'Component gallery',
+            'fullWidth' => true,
         ], 'public');
     }
 }

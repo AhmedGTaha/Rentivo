@@ -42,14 +42,18 @@ final class Authorization
      */
     public function organizationContext(string $slug): OrganizationContext
     {
-        if (isset($this->contextCache[$slug])) {
-            return $this->contextCache[$slug];
-        }
-
         $user = $this->auth->user();
 
         if ($user === null) {
             throw HttpException::unauthorized();
+        }
+
+        // The cache is keyed by user as well as slug: a context resolved for
+        // one identity must never be handed to another.
+        $cacheKey = $user['id'] . '|' . $slug;
+
+        if (isset($this->contextCache[$cacheKey])) {
+            return $this->contextCache[$cacheKey];
         }
 
         $organization = $this->organizations->findBySlug($slug);
@@ -72,7 +76,7 @@ final class Authorization
             ? Permissions::all()
             : $this->members->permissionKeysFor((int) $membership['id']);
 
-        return $this->contextCache[$slug] = new OrganizationContext(
+        return $this->contextCache[$cacheKey] = new OrganizationContext(
             $organization,
             (int) $user['id'],
             (int) $membership['id'],
