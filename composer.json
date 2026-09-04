@@ -1,0 +1,14 @@
+﻿{
+    "name":  "ahmedgtaha/rentivo",
+    "description":  "Rentivo - Multi-agency car rental SaaS",
+    "type":  "project",
+    "license":  "proprietary",
+    "require":  {
+
+                },
+    "autoload":  {
+                     "psr-4":  {
+                                   "Rentivo\\":  "app/"
+                               }
+                 }
+}
