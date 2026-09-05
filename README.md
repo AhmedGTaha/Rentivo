@@ -217,26 +217,68 @@ directly to the inviting admin so the flow remains testable.
 
 ## Running the application
 
-Before starting the web server, make sure **MySQL is running** and the database
-has been **migrated and seeded** ([Installation](#installation) steps 3 and 4).
-The application connects on the first request and fails immediately if it
-cannot.
+Rentivo needs two processes: **MySQL** and a **web server**. The application
+connects to the database on the first request and fails immediately if it
+cannot, so start MySQL first.
 
-From the project root, start PHP's built-in server:
+### Local startup (Windows PowerShell)
 
-```bash
-cd ~/Documents/Developer/Rentivo
-php -S localhost:8000 -t public
-```
-
-On Windows PowerShell:
+**1. Enter the project**
 
 ```powershell
 cd "$HOME\Documents\Developer\Rentivo"
+```
+
+**2. Start MySQL 8.4**
+
+Skip this if MySQL already runs as a Windows service. For a standalone local
+instance:
+
+```powershell
+Start-Process `
+    -FilePath "C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqld.exe" `
+    -ArgumentList "--defaults-file=C:\rentivo-mysql\my.ini"
+```
+
+That configuration file — `C:\rentivo-mysql\my.ini` — holds the data directory,
+port and log paths for the local Rentivo instance. Startup problems are written
+to the error log named in it.
+
+**3. Run pending migrations**
+
+```powershell
+php scripts/migrate.php
+php scripts/migrate.php --status   # applied and pending migrations
+```
+
+Safe to re-run every time; each migration executes exactly once. See
+[Installation](#3-create-the-database) for `--fresh` and the rest.
+
+**4. Load demo data — first setup only**
+
+```powershell
+php scripts/seed.php --demo
+```
+
+This is **not** part of the routine start-up. Run it once when you first set the
+project up, or whenever you want a clean set of agencies, fleets and bookings to
+click through; the data persists in MySQL between runs. The permission
+catalogue (`php scripts/seed.php`, without `--demo`) is required and covered in
+[Installation](#4-seed-the-permission-catalogue).
+
+**5. Start the PHP development server**
+
+```powershell
 php -S localhost:8000 -t public
 ```
 
-Then open <http://localhost:8000>. Stop the server with `Ctrl+C`.
+**6. Open the application**
+
+<http://localhost:8000> — stop the server with `Ctrl+C`.
+
+On macOS or Linux, only steps 1 and 2 differ: `cd` to your clone and start MySQL
+however your system does (`brew services start mysql`, `systemctl start mysql`).
+Steps 3 to 6 are identical.
 
 ### Useful local routes
 
@@ -489,7 +531,8 @@ staff confirming overlapping requests at the same moment cannot both succeed.
 
 **`Unable to connect to the database "rentivo"`**
 MySQL is not running, or the credentials in `.env` are wrong. Verify with
-`mysql -u your_user -p -e 'SELECT 1'`.
+`mysql -u your_user -p -e 'SELECT 1'`, and start the server as shown in
+[Running the application](#running-the-application) step 2.
 
 **`The database has not been migrated yet`**
 Run `php scripts/migrate.php` before `php scripts/seed.php`.
