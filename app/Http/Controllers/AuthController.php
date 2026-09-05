@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rentivo\Http\Controllers;
 
+use InvalidArgumentException;
 use Rentivo\Auth\GoogleAuthException;
 use Rentivo\Auth\GoogleAuthService;
 use Rentivo\Auth\SessionAuth;
@@ -15,6 +16,7 @@ use Rentivo\Security\Authorization;
 use Rentivo\Security\RateLimiter;
 use Rentivo\Support\Config;
 use Rentivo\Support\Flash;
+use Rentivo\Support\Logger;
 
 /**
  * Google-only authentication.
@@ -76,8 +78,18 @@ final class AuthController extends Controller
             'Too many sign-in attempts. Please wait a few minutes and try again.'
         );
 
-        return Response::redirect($this->google->authorizationUrl())
-            ->withHeader('Cache-Control', 'no-store');
+        // The consent screen lives on accounts.google.com, so this needs the
+        // allow-listed external redirect rather than the in-app one, which
+        // would collapse an absolute URL back to the homepage.
+        try {
+            return Response::externalRedirect($this->google->authorizationUrl())
+                ->withHeader('Cache-Control', 'no-store');
+        } catch (InvalidArgumentException $e) {
+            Logger::exception($e, ['context' => 'google_oauth_redirect']);
+            Flash::error('Google sign-in is unavailable right now. Please try again.');
+
+            return $this->redirect('/login');
+        }
     }
 
     /** GET /auth/google/callback */

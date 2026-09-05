@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rentivo\Tests\Unit;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Rentivo\Http\Response;
 use Rentivo\Security\Csrf;
@@ -133,6 +134,92 @@ final class SecurityPrimitivesTest extends TestCase
     {
         self::assertSame('/', Response::safeLocation("/account\r\nSet-Cookie: a=b"));
         self::assertSame('/', Response::safeLocation("/account\nLocation: https://evil.example"));
+    }
+
+    // -----------------------------------------------------------------
+    // Trusted external redirects (Google OAuth hand-off)
+    // -----------------------------------------------------------------
+
+    /**
+     * The OAuth consent screen is off-site, so the in-app redirect must not be
+     * used for it: it would turn the authorization URL into the homepage.
+     */
+    public function testInAppRedirectStillRefusesTheGoogleAuthorizationUrl(): void
+    {
+        self::assertSame(
+            '/',
+            Response::safeLocation('https://accounts.google.com/o/oauth2/v2/auth?client_id=abc')
+        );
+    }
+
+    public function testGoogleAuthorizationUrlsAreAllowedExternally(): void
+    {
+        $url = 'https://accounts.google.com/o/oauth2/v2/auth'
+            . '?response_type=code&client_id=abc.apps.googleusercontent.com'
+            . '&redirect_uri=https%3A%2F%2Frentivo.test%2Fauth%2Fgoogle%2Fcallback'
+            . '&scope=openid%20email%20profile&state=deadbeef';
+
+        self::assertSame($url, Response::trustedExternalLocation($url));
+        self::assertSame($url, Response::externalRedirect($url)->header('Location'));
+        self::assertSame(302, Response::externalRedirect($url)->status());
+    }
+
+    /**
+     * HTTPS alone is not enough: the host has to be the Google endpoint, and
+     * near-miss hostnames must not slip through.
+     */
+    public function testUntrustedHttpsHostsAreRejected(): void
+    {
+        foreach ([
+            'https://evil.example/o/oauth2/v2/auth',
+            'https://accounts.google.com.evil.example/o/oauth2/v2/auth',
+            'https://evil.example/?next=https://accounts.google.com',
+            'https://accounts.google.evil/o/oauth2/v2/auth',
+            'https://user:pass@accounts.google.com/o/oauth2/v2/auth',
+        ] as $candidate) {
+            $this->assertExternalRedirectRejected($candidate);
+        }
+    }
+
+    public function testNonHttpsAndMalformedTargetsAreRejected(): void
+    {
+        foreach ([
+            'http://accounts.google.com/o/oauth2/v2/auth',
+            '//accounts.google.com/o/oauth2/v2/auth',
+            'javascript:alert(1)',
+            '/account',
+            'accounts.google.com',
+            '',
+            '   ',
+        ] as $candidate) {
+            $this->assertExternalRedirectRejected($candidate);
+        }
+    }
+
+    public function testExternalHeaderInjectionIsRejected(): void
+    {
+        foreach ([
+            "https://accounts.google.com/o/oauth2/v2/auth\r\nSet-Cookie: a=b",
+            "https://accounts.google.com/o/oauth2/v2/auth\nLocation: https://evil.example",
+            "https://accounts.google.com/o/oauth2/v2/auth\r\n",
+            "https://accounts.google.com/o/oauth2/v2/auth\x00",
+            "https://accounts.google.com/o/oauth2\x7Fv2/auth",
+        ] as $candidate) {
+            $this->assertExternalRedirectRejected($candidate);
+        }
+    }
+
+    private function assertExternalRedirectRejected(string $candidate): void
+    {
+        try {
+            Response::externalRedirect($candidate);
+        } catch (InvalidArgumentException) {
+            self::assertTrue(true);
+
+            return;
+        }
+
+        self::fail(json_encode($candidate) . ' must not be followed');
     }
 
     // -----------------------------------------------------------------
