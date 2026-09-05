@@ -217,11 +217,38 @@ directly to the inviting admin so the flow remains testable.
 
 ## Running the application
 
+Before starting the web server, make sure **MySQL is running** and the database
+has been **migrated and seeded** ([Installation](#installation) steps 3 and 4).
+The application connects on the first request and fails immediately if it
+cannot.
+
+From the project root, start PHP's built-in server:
+
 ```bash
+cd ~/Documents/Developer/Rentivo
 php -S localhost:8000 -t public
 ```
 
-Then open <http://localhost:8000>.
+On Windows PowerShell:
+
+```powershell
+cd "$HOME\Documents\Developer\Rentivo"
+php -S localhost:8000 -t public
+```
+
+Then open <http://localhost:8000>. Stop the server with `Ctrl+C`.
+
+### Useful local routes
+
+| URL                                     | Page                                    |
+| --------------------------------------- | --------------------------------------- |
+| <http://localhost:8000>                 | Homepage                                |
+| <http://localhost:8000/cars>            | Car marketplace across every agency     |
+| <http://localhost:8000/agencies>        | Agency directory                        |
+| <http://localhost:8000/dev/components>  | Component gallery (`APP_ENV=local` only) |
+
+The component gallery renders every reusable UI component with sample data; it
+returns 404 in any environment other than `local`.
 
 The document root must be `public/`. Everything else — including
 `storage/private/`, `.env` and `vendor/` — then sits outside the web root and
@@ -254,16 +281,6 @@ server {
     }
 }
 ```
-
-### Development component gallery
-
-With `APP_ENV=local`, every reusable UI component is rendered with sample data at:
-
-```
-http://localhost:8000/dev/components
-```
-
-The route returns 404 in any other environment.
 
 ---
 
